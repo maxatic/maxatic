@@ -1,9 +1,13 @@
 <!-- Maxat / Ideas, made real. — self-contained monochrome profile -->
 <picture>
-  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-dark.png">
-  <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-light.png">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-dark.png">
-  <img src="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-light.png" width="100%" alt="Maxat. Ideas, made real. Product Manager at Amazon, based in Munich. A curious mind and a builder at heart, working at the intersection of product, design, and code.">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-dark.png">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-light.png">
+  <source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-dark.png">
+  <source media="(prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-light.png">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-dark.svg">
+  <img src="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/hero-light.svg" width="100%" alt="Maxat. Ideas, made real. Product Manager at Amazon, based in Munich. A curious mind and a builder at heart, working at the intersection of product, design, and code.">
 </picture>
 
 <p align="center">
@@ -24,6 +28,19 @@
   <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/process-mobile-light.svg">
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/process-dark.svg">
   <img src="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/process-light.svg" width="100%" alt="Think: start with the problem. Make: build something useful. Refine: sweat the details. Always in progress.">
+</picture>
+
+### One small move. Then another.
+
+<picture>
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-mobile-dark-static.svg">
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-mobile-light-static.svg">
+  <source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-dark-static.svg">
+  <source media="(prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-light-static.svg">
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-mobile-dark.svg">
+  <source media="(max-width: 600px)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-dark.svg">
+  <img src="https://raw.githubusercontent.com/maxatic/maxatic/main/assets/contributions-light.svg" width="100%" alt="My real GitHub contribution calendar, in monochrome. A little m tile journeys through the days and softly illuminates active contributions. Desktop shows the past year; mobile shows the last 26 weeks.">
 </picture>
 
 <details>

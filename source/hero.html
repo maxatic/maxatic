@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Maxat — Ideas, made real.</title>
+<style>
+*{box-sizing:border-box} :root{--bg:#f5f5f7;--ink:#1d1d1f;--muted:#727276;--line:#d8d8dc;--glass:rgba(255,255,255,.88);--glassline:rgba(255,255,255,.95)}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+body.dark{--bg:#101012;--ink:#f5f5f7;--muted:#a4a4aa;--line:#343438;--glass:rgba(35,35,38,.89);--glassline:rgba(255,255,255,.12)}
+.artboard{width:1600px;height:940px;overflow:hidden;position:relative;background:var(--bg);border-radius:36px}
+.top{position:absolute;inset:54px 68px auto;display:flex;align-items:center;justify-content:space-between}
+.name{font-size:27px;font-weight:650;letter-spacing:-1px}.monogram{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);border-radius:10px;width:33px;height:33px;font-size:22px;margin-right:12px;font-weight:500;letter-spacing:-2px;padding-right:2px}
+.meta{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;letter-spacing:2px;color:var(--muted)}
+.copy{position:absolute;left:72px;top:202px;width:780px}
+.eyebrow{font-size:19px;font-weight:500;color:var(--muted);margin:0 0 28px;letter-spacing:-.2px}
+h1{font-size:146px;line-height:.94;letter-spacing:-9px;font-weight:650;margin:0 0 40px}h1 span{color:var(--muted)}
+.intro{font-size:27px;line-height:1.48;letter-spacing:-.5px;margin:0;max-width:590px}
+.intro small{display:block;color:var(--muted);font-size:23px;margin-top:12px}
+/* Native vector design canvas; the GitHub sidebar provides the portrait. */
+.canvas{position:absolute;right:72px;top:186px;width:568px;height:568px;border:1px solid var(--glassline);border-radius:24px;background:var(--glass);box-shadow:0 28px 70px rgba(0,0,0,.1);overflow:hidden;transform:rotate(2deg)}
+.bar{display:flex;align-items:center;gap:7px;padding:21px 24px;border-bottom:1px solid var(--line)}.dot{width:10px;height:10px;border:1px solid var(--muted);border-radius:50%}.bar span{font:15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);text-align:center;flex:1;padding-right:46px}
+.canvas svg{width:100%;height:372px;display:block}.canvas-note{padding:20px 28px 24px;border-top:1px solid var(--line)}.canvas-note strong{font-size:26px;font-weight:550;letter-spacing:-.8px}.canvas-note p{font-size:17px;color:var(--muted);margin:9px 0 0;letter-spacing:-.1px}
+.orbit{position:absolute;right:40px;top:176px;width:640px;height:590px;border:1px solid var(--line);border-radius:50%;transform:rotate(-16deg);opacity:.45}.orbit:after{content:"";position:absolute;inset:45px -30px;border:1px solid var(--line);border-radius:50%;transform:rotate(40deg)}
+.canvas .frame{fill:var(--bg);stroke:var(--line)}.canvas .ink{fill:var(--ink)}.canvas .mute{fill:var(--muted)}.canvas .guide{fill:none;stroke:var(--line);stroke-width:1.5}.canvas .handle{fill:var(--bg);stroke:var(--muted);stroke-width:1.4}.canvas .accent{stroke:var(--muted);fill:none}
+.bottom{position:absolute;left:72px;right:72px;bottom:48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:22px}.bottom span{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;letter-spacing:1px;color:var(--muted)}
+.bottom .point{display:inline-block;width:7px;height:7px;background:var(--ink);border-radius:50%;margin-right:10px}
+body.mobile .artboard{width:800px;height:1110px;border-radius:28px}body.mobile .top{inset:42px 44px auto}body.mobile .meta{font-size:13px;letter-spacing:1px}body.mobile .name{font-size:24px}body.mobile .copy{left:46px;top:142px;width:708px}body.mobile .eyebrow{font-size:20px;margin-bottom:25px}body.mobile h1{font-size:126px;letter-spacing:-7px;line-height:.91;margin-bottom:30px}body.mobile h1 br:nth-of-type(2){display:none}body.mobile h1 span{display:inline;margin-left:26px}body.mobile .intro{font-size:25px;max-width:670px}body.mobile .intro small{font-size:21px;margin-top:9px}body.mobile .canvas{width:504px;height:510px;right:148px;top:601px;transform:rotate(2deg)}body.mobile .canvas svg{height:328px}body.mobile .canvas-note{padding:16px 24px}body.mobile .canvas-note strong{font-size:24px}body.mobile .canvas-note p{font-size:16px}body.mobile .orbit{width:600px;height:510px;right:98px;top:595px}body.mobile .artboard{height:1240px}body.mobile .bottom{left:46px;right:46px;bottom:34px;padding-top:20px}body.mobile .bottom span{font-size:13px;letter-spacing:.5px}
+
+/* Motion is embedded in the exported SVG; no JavaScript runs in the README. */
+.canvas{animation:window-float 9s ease-in-out infinite}.orbit{animation:orbit-drift 18s ease-in-out infinite}
+.app-icon{transform-box:fill-box;transform-origin:center;animation:icon-breathe 9s cubic-bezier(.45,0,.25,1) infinite}
+.cursor{animation:cursor-create 9s cubic-bezier(.4,0,.2,1) infinite}.tick{stroke-dasharray:52;stroke-dashoffset:0;animation:tick-draw 9s ease infinite}
+.sheen{animation:silver-sweep 9s ease-in-out infinite}.handles{animation:handles-breathe 9s ease infinite}
+@keyframes window-float{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-10px) rotate(.5deg)}}
+@keyframes orbit-drift{0%,100%{transform:rotate(-16deg);opacity:.3}50%{transform:rotate(6deg);opacity:.55}}
+@keyframes icon-breathe{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-8px) scale(1.025)}62%{transform:translateY(2px) scale(.99)}75%{transform:translateY(0) scale(1)}}
+@keyframes cursor-create{0%,100%{transform:translate(376px,285px) rotate(-8deg)}30%,45%{transform:translate(327px,237px) rotate(-8deg)}51%{transform:translate(327px,237px) rotate(-8deg) scale(.92)}60%{transform:translate(327px,237px) rotate(-8deg)}75%{transform:translate(376px,285px) rotate(-8deg)}}
+@keyframes tick-draw{0%,45%{stroke-dashoffset:52;opacity:.25}58%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:52;opacity:.25}}
+@keyframes silver-sweep{0%,14%{transform:translateX(-230px);opacity:0}20%{opacity:.55}39%{transform:translateX(290px);opacity:0}100%{transform:translateX(290px);opacity:0}}
+@keyframes handles-breathe{0%,100%{opacity:.45}45%,70%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.canvas,.orbit,.app-icon,.cursor,.tick,.sheen,.handles{animation:none!important}.sheen{opacity:0}.tick{stroke-dashoffset:0;opacity:1}}
+</style>
+<body>
+<main class="artboard">
+  <header class="top"><div class="name"><span class="monogram">m</span>maxat.</div><div class="meta">PRODUCT / DESIGN / CODE</div></header>
+  <section class="copy"><p class="eyebrow">A curious mind. A builder at heart.</p><h1>Ideas,<br>made<br><span>real.</span></h1><p class="intro">I turn “what if” into something you can use.<small>Thoughtful products. Carefully considered details.</small></p></section>
+  <div class="orbit" aria-hidden="true"></div>
+  <aside class="canvas" aria-label="A design canvas turning an idea into a product">
+    <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span>untitled.idea</span></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 568 372" role="img" aria-label="An idea becomes an interface">
+      <defs><linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f7f9"/><stop offset=".48" stop-color="#dddde2"/><stop offset="1" stop-color="#aaaab0"/></linearGradient><linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#343438"/><stop offset="1" stop-color="#101012"/></linearGradient><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r=".8" class="mute" opacity=".18"/></pattern><filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000" flood-opacity=".17"/></filter></defs>
+      <rect width="568" height="372" fill="url(#grid)"/>
+      <path d="M77 186H156M411 186h80M284 38v30M284 309v30" class="guide" stroke-dasharray="4 5"/>
+      <rect x="40" y="155" width="79" height="62" rx="15" class="frame" stroke-width="1.4"/><text x="79" y="193" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-size="25" class="mute">?</text>
+      <g class="app-icon"><g transform="rotate(-11 284 186)"><rect x="181" y="88" width="211" height="211" rx="46" fill="url(#silver)" opacity=".32"/><rect x="165" y="79" width="211" height="211" rx="46" fill="url(#silver)" filter="url(#shadow)"/><rect x="172" y="85" width="196" height="196" rx="40" fill="url(#face)"/><text x="269" y="226" text-anchor="middle" font-family="Helvetica Neue,Arial,sans-serif" font-weight="600" font-size="156" letter-spacing="-8" fill="#f5f5f7">m</text><svg x="172" y="85" width="196" height="196" viewBox="0 0 196 196"><defs><clipPath id="icon-clip"><rect width="196" height="196" rx="40"/></clipPath><linearGradient id="glint"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><g clip-path="url(#icon-clip)"><path class="sheen" d="M-65-30H5L145 226H75Z" fill="url(#glint)"/></g></svg></g></g>
+      <rect x="142" y="53" width="282" height="268" class="accent" stroke-width="1.2" stroke-dasharray="5 5"/>
+      <g class="handle handles"><rect x="138" y="49" width="8" height="8"/><rect x="420" y="49" width="8" height="8"/><rect x="138" y="317" width="8" height="8"/><rect x="420" y="317" width="8" height="8"/></g>
+      <rect x="450" y="155" width="79" height="62" rx="15" class="frame" stroke-width="1.4"/><path d="m473 185 11 11 19-23" class="accent tick" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g class="cursor" transform="translate(376 285) rotate(-8)"><path d="M0 0 0 40 10 31 18 47 25 43 17 28 31 27Z" class="ink"/><rect x="31" y="36" width="88" height="28" rx="14" class="ink"/><text x="75" y="54" text-anchor="middle" font-size="12" font-family="Helvetica Neue,Arial,sans-serif" fill="var(--bg)">make it real</text></g>
+    </svg>
+    <div class="canvas-note"><strong>From “what if” to “here it is.”</strong><p>Find the friction. Make it simple. Build the thing.</p></div>
+  </aside>
+  <footer class="bottom"><span><i class="point"></i>DESIGNED WITH INTENT.</span><span>BUILT WITH CURIOSITY. ↗</span></footer>
+</main>
+<script>let q=new URLSearchParams(location.search);document.body.classList.toggle('dark',q.get('theme')==='dark');document.body.classList.toggle('mobile',q.has('mobile'));</script>
+</body></html>
