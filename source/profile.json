@@ -1,0 +1,25 @@
+{
+  "username": "maxatic",
+  "name": "Maxat",
+  "specialization": [
+    "Product management",
+    "AI & data-driven products",
+    "Design & rapid prototyping"
+  ],
+  "companies": [
+    "Red Hat",
+    "Amazon",
+    "VEON"
+  ],
+  "stack": [
+    "Git",
+    "Python",
+    "TypeScript",
+    "Figma",
+    "Framer",
+    "Claude Code"
+  ],
+  "tools": "AI agents / MCP / rapid prototyping",
+  "website": "https://maxat.live",
+  "note": "Experience order and stack confirmed by Maxat on 2026-10-06."
+}
