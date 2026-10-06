@@ -63,7 +63,7 @@ def profile(theme,static=False):
     pieces.append(group(stack,.6))
     pieces.append(group(text(34,829,'AI agents / MCP',20,c['muted'])+text(34,861,'Rapid prototyping / product discovery',17,c['muted']),.75))
     css='' if static else '.section{animation:appear .7s cubic-bezier(.2,.8,.2,1) both}@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}'
-    return f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="950" viewBox="0 0 840 950"><title>Maxat — profile and stack</title><desc>Product management, AI, data-driven products, design and prototyping. Experience and technology details.</desc><style>{css}@media(prefers-reduced-motion:reduce){{.section{{animation:none!important;opacity:1;transform:none}}}}</style>{shell(c,"maxatic / profile")}{"".join(pieces)}<path d="M28 918H812" stroke="{c["line"]}"/>{text(34,939,'maxat.live ↗',13,c['muted'])}</svg>'
+    return f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="950" viewBox="0 0 840 950"><title>Maxat — profile and stack</title><desc>Product management, AI, data-driven products, design and prototyping. Experience and technology details.</desc><style>{css}@media(prefers-reduced-motion:reduce){{.section{{animation:none!important;opacity:1;transform:none}}}}</style>{shell(c,"maxatic / profile")}{"".join(pieces)}<path d="M28 918H812" stroke="{c["line"]}"/>{text(34,939,'maxat.tech ↗',13,c['muted'])}</svg>'
 
 def main():
     import argparse
