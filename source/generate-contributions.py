@@ -14,40 +14,33 @@ class Calendar(HTMLParser):
             self.days.append({'date':a['data-date'],'level':int(a['data-level'])})
 
 def render(days, theme, mobile=False):
+    """A clearly described decorative calendar; extra accents do not alter source activity."""
+    import hashlib
     days=sorted(days,key=lambda d:d['date'])
-    first=date.fromisoformat(days[0]['date']); first-=timedelta(days=(first.weekday()+1)%7)
-    last=date.fromisoformat(days[-1]['date']); n=(last-first).days//7+1
+    first=date.fromisoformat(days[0]['date']);first-=timedelta(days=(first.weekday()+1)%7)
+    last=date.fromisoformat(days[-1]['date']);n=(last-first).days//7+1
     if mobile:
-        first+=timedelta(weeks=max(0,n-26)); days=[d for d in days if date.fromisoformat(d['date'])>=first];n=(last-first).days//7+1
-    palette=['#e8e8ec','#c9c9cf','#96969e','#62626b','#252529'] if theme=='light' else ['#29292e','#494950','#71717b','#a8a8b1','#efeff2']
-    bg='#f5f5f7' if theme=='light' else '#19191c';ink='#1d1d1f' if theme=='light' else '#f5f5f7';muted='#727276' if theme=='light' else '#a4a4aa'
-    w=800 if mobile else 1600;h=440;pitch=27 if mobile else 28;cell=20;left=(w-n*pitch+7)/2;top=166
-    total=len(days);duration=48;travel=44;frames=[];positions={};valid={date.fromisoformat(d['date']) for d in days};i=0
-    for c in range(n):
-        for step in range(7):
-            r=step if c%2==0 else 6-step
-            if first+timedelta(days=c*7+r) not in valid:continue
-            x=left+c*pitch;y=top+r*pitch
-            positions[(c,r)]=(i,x,y);frames.append(f'{i/total*travel/duration*100:.4f}%{{transform:translate({x:.1f}px,{y:.1f}px)}}');i+=1
-    _,x,y=max(positions.values(),key=lambda p:p[0])
-    frames.extend([f'{travel/duration*100:.4f}%{{transform:translate({x:.1f}px,{y:.1f}px)}}',f'94%{{transform:translate({x:.1f}px,376px);opacity:0}}',f'98%{{transform:translate({left:.1f}px,140px);opacity:0}}',f'100%{{transform:translate({left:.1f}px,166px);opacity:1}}'])
-    cells=[];months=[];seen=set()
+        first+=timedelta(weeks=max(0,n-26));days=[d for d in days if date.fromisoformat(d['date'])>=first];n=(last-first).days//7+1
+    dark=theme=='dark';bg='#0d1110' if dark else '#f8faf8';fg='#d1dcd3' if dark else '#263f2e';muted='#899b8e' if dark else '#65806d'
+    palette=['#15231a','#174d2d','#237e41','#36b859','#64e582'] if dark else ['#e5f2e8','#b9e6c5','#7ecd94','#49b36b','#288b47']
+    width=800 if mobile else 1600;height=320;pitch=28;size=21;left=(width-n*pitch+7)/2;top=106
+    cells=[];months=[];seen=set();active=0
     for d in days:
-        dt=date.fromisoformat(d['date']);c=(dt-first).days//7;r=(dt.weekday()+1)%7;i,x,y=positions[(c,r)];level=d['level'];color=palette[level]
-        cells.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{cell}" height="{cell}" rx="5" fill="{color}"><title>{d["date"]}: contribution intensity {level} of 4</title></rect>')
-        if level:
-            delay=i/total*travel
-            cells.append(f'<rect class="spark" x="{x:.1f}" y="{y:.1f}" width="{cell}" height="{cell}" rx="5" fill="{ink}" style="animation-delay:{delay:.3f}s"/>')
+        dt=date.fromisoformat(d['date']);col=(dt-first).days//7;row=(dt.weekday()+1)%7
+        digest=hashlib.sha256(('maxatic/art/'+d['date']).encode()).digest()
+        decorative=d['level']==0 and digest[0]<148
+        level=(1+digest[1]%3) if decorative else d['level'];active+=int(level>0)
+        x=left+col*pitch;y=top+row*pitch
+        label='Decorative green accent; not a recorded contribution' if decorative else f'Actual contribution intensity: {d["level"]} of 4'
+        cells.append(f'<rect class="cell" x="{x:.1f}" y="{y}" width="{size}" height="{size}" rx="4.5" fill="{palette[level]}" style="animation-delay:{col*.035:.3f}s"><title>{d["date"]}: {label}</title></rect>')
         month=(dt.year,dt.month)
         if month not in seen:
-            seen.add(month);months.append(f'<text x="{left+c*pitch:.1f}" y="144" font-size="16" fill="{muted}">{dt.strftime("%b")}</text>')
-    period=f'{first.strftime("%b %Y")} — {last.strftime("%b %Y")}'
-    label='LAST 26 WEEKS' if mobile else 'A YEAR OF SMALL MOVES'
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><title>Maxat's contribution journey</title><desc>Actual public GitHub contribution intensity, {first} through {last}. A small monogram visits each calendar square and gently illuminates active days.</desc><style>
-    .traveler{{animation:journey {duration}s linear infinite}}.spark{{opacity:0;animation:ignite {duration}s linear infinite}}
-    @keyframes journey{{{''.join(frames)}}}@keyframes ignite{{0%{{opacity:0}}.12%,.8%{{opacity:.8}}2.5%,100%{{opacity:0}}}}
-    @media(prefers-reduced-motion:reduce){{.traveler{{display:none}}.spark{{animation:none;opacity:0}}}}
-    </style><rect width="{w}" height="{h}" rx="28" fill="{bg}"/><g font-family="Helvetica Neue,Arial,sans-serif"><text x="44" y="57" fill="{muted}" font-size="{'16' if mobile else '18'}" letter-spacing="2">{label}</text><text x="44" y="98" fill="{ink}" font-size="32" font-weight="600" letter-spacing="-1">One small move. Then another.</text><text x="{w-44}" y="57" fill="{muted}" font-size="14" text-anchor="end">{period}</text>{''.join(months)}{''.join(cells)}<g class="traveler" transform="translate({left:.1f} 166)"><rect x="-4" y="-4" width="28" height="28" rx="9" fill="{ink}" opacity=".13"/><rect width="20" height="20" rx="6" fill="{ink}"/><text x="10" y="14.5" text-anchor="middle" fill="{bg}" font-size="16" font-weight="600">m</text></g><text x="44" y="405" fill="{muted}" font-size="16">Real activity. A little creative license.</text><text x="{w-44}" y="405" text-anchor="end" fill="{muted}" font-size="14">maxatic / building in public</text></g></svg>'''
+            seen.add(month)
+            # The final partial month stays within the artwork boundary.
+            label_x=min(width-30,left+col*pitch)
+            months.append(f'<text x="{label_x:.1f}" y="86" font-size="18" fill="{muted}">{dt.strftime("%b")}</text>')
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}"><title>maxatic — contribution-inspired artwork</title><desc>Stylized green calendar with actual activity and additional decorative squares. This is an artistic composition, not a representation of contribution counts. Desktop shows the past year; mobile shows the last 26 weeks.</desc><style>.cell{{transform-box:fill-box;transform-origin:center;animation:pop .7s cubic-bezier(.2,.8,.2,1) both}}@keyframes pop{{0%{{opacity:.2;transform:scale(.75)}}70%{{opacity:1;transform:scale(1.08)}}100%{{opacity:1;transform:scale(1)}}}}.sweep{{animation:sweep 18s linear infinite}}@keyframes sweep{{0%,10%{{transform:translateX(-100px);opacity:0}}14%{{opacity:.3}}85%{{transform:translateX({width}px);opacity:.3}}90%,100%{{transform:translateX({width}px);opacity:0}}}}@media(prefers-reduced-motion:reduce){{.cell{{animation:none!important;opacity:1;transform:none}}.sweep{{display:none}}}}</style><defs><clipPath id="calendar"><rect x="{left-2:.1f}" y="{top-2}" width="{n*pitch+2}" height="{7*pitch+2}"/></clipPath><linearGradient id="glow"><stop stop-color="#57d778" stop-opacity="0"/><stop offset=".5" stop-color="#8afaac"/><stop offset="1" stop-color="#57d778" stop-opacity="0"/></linearGradient></defs><rect width="{width}" height="{height}" rx="20" fill="{bg}"/><rect x=".5" y=".5" width="{width-1}" height="{height-1}" rx="20" fill="none" stroke="{'#2b342e' if dark else '#d5dfd7'}"/><g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"><text x="{left:.1f}" y="42" font-size="22" font-weight="600" fill="{fg}">maxatic</text>{''.join(months)}</g>{''.join(cells)}<g clip-path="url(#calendar)"><rect class="sweep" x="0" y="104" width="90" height="197" fill="url(#glow)" opacity="0"/></g></svg>'''
+
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--username',default='maxatic');p.add_argument('--html');p.add_argument('--output',default=str(Path(__file__).resolve().parents[1]/'assets'));a=p.parse_args()
@@ -58,7 +51,7 @@ def main():
     output=Path(a.output);output.mkdir(parents=True,exist_ok=True)
     for theme in ['light','dark']:
         for mobile in [False,True]:
-            file=output/f'contributions-{"mobile-" if mobile else ""}{theme}.svg';art=render(c.days,theme,mobile);file.write_text(art);file.with_name(file.stem+'-static.svg').write_text(art.replace('</style>','</style><style>.traveler{display:none!important}.spark{animation:none!important;opacity:0!important}</style>'));print(f'Generated {file.name}: {len(c.days)} calendar days')
+            file=output/f'contributions-{"mobile-" if mobile else ""}{theme}.svg';art=render(c.days,theme,mobile);file.write_text(art);file.with_name(file.stem+'-static.svg').write_text(art.replace('</style>','</style><style>.cell{animation:none!important;opacity:1!important;transform:none!important}.sweep{display:none!important}</style>'));print(f'Generated {file.name}: {len(c.days)} calendar days')
     (output/'contributions-data.json').write_text(json.dumps({'username':a.username,'days':sorted(c.days,key=lambda d:d['date'])},indent=2)+'\n')
 
 if __name__=='__main__':main()
